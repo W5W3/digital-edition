@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Digital Edition</title>
+  <link rel="stylesheet" href="css/viewer.css">
+  <!-- Order matters: font list, then the generated text, then the viewer. -->
+  <script src="fonts/fonts.js"></script>
+  <script src="data/edition.js"></script>
+  <script src="js/viewer.js" defer></script>
+</head>
+<body data-reading="norm">
+  <header class="masthead">
+    <div class="title-row">
+      <h1 id="ed-title">Digital Edition</h1>
+      <nav class="site-links"><a href="method.html">Editorial method</a> · <a href="ai-log.html">AI use log</a></nav>
+    </div>
+
+    <div class="toolbar" role="toolbar" aria-label="Reading options">
+      <fieldset class="control">
+        <legend>Layout</legend>
+        <div class="segmented" id="layout-ctl"></div>
+      </fieldset>
+
+      <fieldset class="control">
+        <legend>Latin text</legend>
+        <div class="segmented" id="reading-ctl">
+          <button type="button" data-value="dipl" title="Original spelling, abbreviations and line breaks">Diplomatic</button>
+          <button type="button" data-value="norm" title="Abbreviations expanded, spelling regularized">Normalized</button>
+        </div>
+      </fieldset>
+
+      <label class="control">
+        <span class="legend">Font</span>
+        <select id="font-ctl"></select>
+      </label>
+
+      <div class="control">
+        <span class="legend">Page turn</span>
+        <div class="segmented"><button type="button" id="turn-ctl" title="Page-turn animation: Normal, 2× speed, or Off. Click to change.">Normal</button></div>
+      </div>
+
+      <div class="control pager">
+        <span class="legend">Page</span>
+        <div class="pager-row">
+          <button type="button" id="prev" aria-label="Previous page">‹</button>
+          <select id="page-ctl" aria-label="Go to page"></select>
+          <button type="button" id="next" aria-label="Next page">›</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="panes" class="panes" aria-live="polite"></main>
+
+  <dialog id="lightbox" aria-label="Enlarged diagram">
+    <button type="button" class="lightbox-close" aria-label="Close">×</button>
+    <img alt="">
+    <p class="lightbox-caption"></p>
+  </dialog>
+
+  <noscript><p class="notice">This edition needs JavaScript turned on.</p></noscript>
+</body>
+</html>

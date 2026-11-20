@@ -1,0 +1,303 @@
+/* ================================================================
+   Digital edition viewer — styles
+   Modelled on a printed facing-page edition: one serif throughout,
+   black ink and one rubric red, hairline rules, no boxes.
+   Colours and sizes are tokens at the top; change them here.
+   ================================================================ */
+
+/* The interface itself is set in EB Garamond (the text panes use whatever
+   font the reader picks). viewer.js loads the same files for the font menu. */
+@font-face { font-family: "EB Garamond"; src: url("../fonts/EBGaramond.woff2") format("woff2"); font-weight: 400 800; font-style: normal; font-display: swap; }
+@font-face { font-family: "EB Garamond"; src: url("../fonts/EBGaramond-Italic.woff2") format("woff2"); font-weight: 400 800; font-style: italic; font-display: swap; }
+
+:root {
+  --paper: #e4e1db;          /* the desk the book lies on */
+  --page: #fffefb;           /* the page */
+  --fold: rgb(0 0 0 / .07);  /* shading at the spine */
+  --ink: #161412;
+  --ink-soft: #6e6862;
+  --rule: #161412;            /* rules are drawn in ink, thin */
+  --hair: #cfcac3;            /* lighter hairlines */
+  --rubric: #a01d16;          /* the one colour: rubric red */
+  --mark: #f3e9b8;            /* opened note */
+  --shadow-tint: 60 45 30;   /* colour of the shadow under the book (R G B) */
+  --figure-bg: #fffefb;       /* behind diagrams in light mode and in the enlarged view */
+
+  --serif: "EB Garamond", "Junicode", Georgia, serif;
+  --text-font: "EB Garamond", "Junicode", Georgia, serif;   /* set by viewer.js */
+  --text-style: normal;                                      /* set by viewer.js */
+  --text-size: 1.22rem;
+  --line: 1.6;
+  --gutter: 16px;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #161412; --page: #46423c; --fold: rgb(0 0 0 / .22); --ink: #f1ebe1; --ink-soft: #c2b9ac;
+    --rule: #f1ebe1; --hair: #6a645c; --rubric: #f2a68f; --mark: #6d6030; --shadow-tint: 0 0 0;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #161412; --page: #46423c; --fold: rgb(0 0 0 / .22); --ink: #f1ebe1; --ink-soft: #c2b9ac;
+  --rule: #f1ebe1; --hair: #6a645c; --rubric: #f2a68f; --mark: #6d6030; --shadow-tint: 0 0 0;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.4;
+}
+a { color: var(--rubric); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+::selection { background: var(--mark); color: var(--ink); }
+
+/* ---------------- Masthead & toolbar ---------------- */
+.masthead {
+  max-width: 1200px; margin: 0 auto;
+  padding: 28px var(--gutter) 0;
+  text-align: center;
+}
+.title-row { border-bottom: 3px double var(--rule); padding-bottom: 12px; }
+h1 {
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 400; font-size: 2.1rem; line-height: 1.15;
+  font-variant: small-caps; letter-spacing: .05em;
+}
+.site-links { margin-top: 4px; font-style: italic; }
+.site-links a { color: var(--ink-soft); text-decoration: none; }
+.site-links a:hover { color: var(--rubric); text-decoration: underline; }
+
+.toolbar {
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline;
+  gap: 6px 28px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.control {
+  border: 0; margin: 0; padding: 0; min-width: 0;
+  display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; justify-content: center;
+}
+.control legend, .control .legend {
+  float: left;                 /* lets a legend sit inline with its fieldset's contents */
+  padding: 0; margin-right: 8px;
+  font-style: italic; color: var(--ink-soft);
+}
+.control legend::after, .control .legend::after { content: ":"; }
+.control:disabled { opacity: .35; }
+
+/* All controls read as type, not as widgets. */
+button, select {
+  font: inherit; color: var(--ink);
+  background: none; border: 0; border-radius: 0;
+  padding: 0; margin: 0; min-height: 0; cursor: pointer;
+}
+button:focus-visible, select:focus-visible, a:focus-visible {
+  outline: 1px solid var(--rubric); outline-offset: 3px;
+}
+button:disabled { color: var(--hair); cursor: default; }
+
+.segmented { display: inline; }
+.segmented button { font-variant: small-caps; letter-spacing: .04em; color: var(--ink-soft); }
+/* inline-block keeps the separator dot out of the pressed button's underline */
+.segmented button + button::before { content: "·"; display: inline-block; color: var(--ink-soft); margin: 0 .55em; pointer-events: none; }
+.segmented button:hover { color: var(--rubric); }
+.segmented button[aria-pressed="true"] { color: var(--ink); text-decoration: underline; text-decoration-color: var(--rubric); text-underline-offset: 4px; }
+/* the page-turn button shows its current setting; clicking cycles it */
+#turn-ctl { color: var(--ink); text-decoration: underline; text-decoration-color: var(--rubric); text-underline-offset: 4px; min-width: 4.2em; text-align: left; }
+#turn-ctl:hover { color: var(--rubric); }
+
+select {
+  border-bottom: 1px solid var(--hair);
+  padding: 0 2px;
+  max-width: 100%;
+}
+select:hover { border-bottom-color: var(--rubric); }
+select option { background: var(--paper); color: var(--ink); }
+
+.pager-row { display: inline-flex; align-items: baseline; gap: 10px; }
+#prev, #next { font-size: 1.3rem; line-height: 1; padding: 0 4px; color: var(--rubric); }
+#prev:disabled, #next:disabled { color: var(--hair); }
+
+/* ---------------- Panes: an open book ----------------
+   Each pane is one printed page: running head at the top, text, footnotes
+   under a short rule, folio number in the outer bottom corner. */
+.panes {
+  display: grid; grid-template-columns: 1fr 1fr;
+  max-width: 1160px; margin: 28px auto 64px; padding: 0 var(--gutter);
+  /* Shadow under the whole book (drop-shadow follows the pages, not the box) */
+  filter: drop-shadow(0 3px 5px rgb(var(--shadow-tint) / .18)) drop-shadow(0 22px 34px rgb(var(--shadow-tint) / .28));
+}
+.pane {
+  position: relative; min-width: 0;
+  display: flex; flex-direction: column;
+  min-height: min(56rem, 88vh);
+  background: var(--page);
+  padding: 30px clamp(20px, 5vw, 64px) 26px;
+}
+/* The spine: a faint fold where the two pages meet */
+.pane[data-side="verso"] { background-image: linear-gradient(to left, var(--fold), transparent 28px); }
+.pane[data-side="recto"] { background-image: linear-gradient(to right, var(--fold), transparent 28px); }
+
+/* Running head: the title in spaced capitals; "View original" in the outer top corner */
+.pane-head {
+  display: flex; justify-content: center; align-items: baseline;
+  min-height: 1.4em; margin-bottom: 26px;
+}
+.running-title {
+  font-size: .78rem; letter-spacing: .2em; text-transform: uppercase; color: var(--ink);
+  text-align: center; padding: 0 6.5em;   /* room for the corner link */
+}
+.pane-head a {
+  position: absolute; top: 30px;
+  font-style: italic; font-size: .82rem; text-decoration: none; white-space: nowrap;
+}
+.pane[data-side="verso"] .pane-head a { left: clamp(20px, 5vw, 64px); }
+.pane[data-side="recto"] .pane-head a { right: clamp(20px, 5vw, 64px); }
+.pane-head a:hover { text-decoration: underline; }
+
+.pane-body {
+  flex: 1;
+  font-family: var(--text-font); font-style: var(--text-style);
+  font-size: var(--text-size); line-height: var(--line);
+  overflow-wrap: break-word;
+  font-variant-ligatures: common-ligatures;
+  /* Never let a font substitute letters by language (EB Garamond turns u→v
+     in Latin). The editor's characters must display exactly as encoded. */
+  font-feature-settings: "locl" 0;
+}
+.pane-empty { color: var(--ink-soft); font-style: italic; text-align: center; margin-top: 3em; }
+
+/* Footnotes at the foot of the page, under a short rule */
+.footnotes {
+  margin-top: 1.6em; padding-top: .6em;
+  font-family: var(--text-font); font-size: .9rem; line-height: 1.4;
+  background: linear-gradient(var(--ink), var(--ink)) top left / 5.5em 1px no-repeat;
+}
+
+/* Folio number, outer bottom corner */
+.folio-foot { margin-top: 1.4em; font-size: 1rem; font-variant-numeric: lining-nums; letter-spacing: .03em; }
+.pane[data-side="verso"] .folio-foot { text-align: left; }
+.pane[data-side="recto"] .folio-foot { text-align: right; }
+
+@media (max-width: 800px) {
+  .panes { grid-template-columns: 1fr; gap: 14px; }
+  .pane { min-height: 0; background-image: none !important; }
+  .running-title { padding: 0; }
+  .pane-head { flex-direction: column; align-items: center; gap: 4px; }
+  .pane-head a { position: static; }
+  .pane[data-side] .folio-foot { text-align: right; }
+  :root { --text-size: 1.12rem; }
+  h1 { font-size: 1.7rem; }
+}
+
+/* ---------------- Page turn (see turnPage in viewer.js) ---------------- */
+.flip-layer { position: absolute; left: 0; top: 0; width: 0; height: 0; z-index: 20; pointer-events: none; }
+.flip-cover, .flip-leaf { position: absolute; }
+.flip-leaf { perspective: 4200px; transform-style: preserve-3d; }
+.flip-strip { position: absolute; top: 0; transform-style: preserve-3d; will-change: transform; }
+/* Which side of each strip shows is switched by viewer.js, not by backface-visibility */
+.flip-face { position: absolute; top: 0; overflow: hidden; }
+.flip-face.back { transform: rotateY(180deg); }
+.flip-shade { position: absolute; inset: 0; background: #000; opacity: 0; }
+
+/* ---------------- TEI rendering ---------------- */
+.tei-head {
+  font: inherit; font-style: normal; font-variant: small-caps; letter-spacing: .06em;
+  color: var(--rubric); text-align: center; margin: .2em 0 .9em;
+}
+.tei-p { margin: 0; text-indent: 1.5em; text-align: justify; }
+.tei-p.continued, .tei-head + .tei-p, .ms-figure + .tei-p { text-indent: 0; }
+.tei-l { margin: 0; }
+
+.hi.r-italic { font-style: italic; }
+.hi.r-bold { font-weight: 700; }
+.hi.r-underline { text-decoration: underline; }
+.hi.r-sup, .hi.r-superscript { vertical-align: super; font-size: .75em; }
+.hi.r-red, .hi.r-rubric { color: var(--rubric); }
+.hi.r-caps, .hi.r-smallcaps { font-variant: small-caps; }
+
+/* Diplomatic vs normalized. body[data-reading] is set by viewer.js. */
+body[data-reading="dipl"] .norm { display: none; }
+body[data-reading="norm"] .dipl { display: none; }
+
+/* Diplomatic: page-faithful lines, no indent, ragged right, scribal features visible */
+body[data-reading="dipl"] .pane[data-type="latin"] .tei-p { text-indent: 0; text-align: left; margin-bottom: .8em; }
+.tei-del { text-decoration: line-through; text-decoration-thickness: 1px; color: var(--ink-soft); }
+body[data-reading="dipl"] .tei-add.place-above,
+body[data-reading="dipl"] .tei-add.place-supralinear { vertical-align: .55em; font-size: .78em; }
+body[data-reading="dipl"] .tei-add.place-margin::before { content: "⸢"; }
+body[data-reading="dipl"] .tei-add.place-margin::after { content: "⸣"; }
+.tei-add { text-decoration: none; }
+body[data-reading="dipl"] .unclear { text-decoration: underline dotted; text-underline-offset: 3px; }
+.gap { color: var(--ink-soft); cursor: help; }
+.fw { display: block; text-align: right; color: var(--ink-soft); font-style: italic; margin-top: .4em; }
+.fw.fw-header, .fw.fw-pageNum { text-align: center; margin: 0 0 .6em; }
+
+/* Normalized: editorial expansions in italics, supplied text in angle brackets */
+.ex { font-style: italic; }
+.supplied::before { content: "⟨"; color: var(--ink-soft); }
+.supplied::after { content: "⟩"; color: var(--ink-soft); }
+.sic-corr .norm { text-decoration: underline dotted var(--ink-soft); text-underline-offset: 3px; cursor: help; }
+
+/* Notes: a red superscript numeral in the text; the note itself is a footnote */
+.note-ref {
+  font: inherit; font-style: normal; font-size: .68em;
+  vertical-align: super; line-height: 1;
+  padding: 0 1px; color: var(--rubric);
+}
+.note-ref:hover { text-decoration: underline; }
+.footnotes .note-body { display: block; margin: 0 0 .3em; text-indent: 0; text-align: left; font-style: normal; transition: background-color .4s; }
+.footnotes .note-body.lit { background: var(--mark); }
+.note-body[hidden] { display: none; }
+.note-num { color: var(--rubric); margin-right: .3em; }
+
+/* Diagrams */
+.ms-figure { display: block; margin: 1.2em 0; text-align: center; text-indent: 0; }
+.fig-zoom {
+  display: inline-block; padding: 6px; background: var(--figure-bg);
+  cursor: zoom-in;
+  width: min(100%, 480px);   /* definite width so unsized SVGs still show */
+}
+.fig-zoom img { display: block; width: 100%; height: auto; max-height: 50vh; object-fit: contain; }
+.fig-zoom canvas { display: block; margin: 0 auto; }   /* painted stand-in during a page turn */
+/* Dark mode: draw the diagram's lines in light ink on the dark page instead of
+   showing a bright white box. (The enlarged view still shows it on paper.) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .fig-zoom { background: transparent; }
+  :root:not([data-theme="light"]) .fig-zoom img,
+  :root:not([data-theme="light"]) .fig-zoom canvas { filter: invert(.9) hue-rotate(180deg); }
+}
+:root[data-theme="dark"] .fig-zoom { background: transparent; }
+:root[data-theme="dark"] .fig-zoom img,
+:root[data-theme="dark"] .fig-zoom canvas { filter: invert(.9) hue-rotate(180deg); }
+.fig-caption { display: block; font-size: .85em; font-style: italic; color: var(--ink-soft); margin-top: .4em; }
+
+/* Lightbox */
+#lightbox {
+  border: 1px solid var(--rule); border-radius: 0; padding: 24px; background: var(--figure-bg);
+  max-width: min(96vw, 1200px); max-height: 94vh;
+}
+#lightbox::backdrop { background: rgb(10 8 6 / .8); }
+#lightbox img { display: block; width: min(90vw, 1100px); max-height: 80vh; object-fit: contain; }
+.lightbox-caption { color: #4a443e; font-style: italic; text-align: center; margin: 12px 0 0; }
+.lightbox-close {
+  position: absolute; top: 6px; right: 10px; font-size: 1.5rem; line-height: 1; color: #4a443e;
+}
+
+.notice { max-width: 40em; margin: 40px auto; padding: 0 var(--gutter); font-style: italic; text-align: center; }
+
+/* Print: just the panes */
+@media print {
+  body { background: none; }
+  .toolbar, .site-links, .pane-head a { display: none; }
+  .panes { filter: none; }
+  .pane { background-image: none !important; break-inside: avoid; }
+}

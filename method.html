@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Editorial Method</title>
+  <link rel="stylesheet" href="css/viewer.css">
+  <style>
+    .method { max-width: 46rem; margin: 28px auto 64px; padding: 36px clamp(20px, 6vw, 72px) 48px; background: var(--page); box-shadow: 0 3px 5px rgb(var(--shadow-tint) / .18), 0 22px 34px rgb(var(--shadow-tint) / .28); font-size: 1.18rem; line-height: 1.6; }
+    .method .back { font-style: italic; margin: 0 0 18px; }
+    .method .back a { color: var(--ink-soft); text-decoration: none; }
+    .method .back a:hover { color: var(--rubric); text-decoration: underline; }
+    .method h1 { text-align: center; border-bottom: 3px double var(--rule); padding-bottom: 12px; margin-bottom: 1em; }
+    .method h2 { font-size: 1.1rem; font-weight: 400; font-variant: small-caps; letter-spacing: .06em; color: var(--rubric); text-align: center; margin: 1.8em 0 .5em; }
+    .method p { margin: 0 0 .6em; }
+    .method table { border-collapse: collapse; width: 100%; font-size: 1.02rem; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+    .method th, .method td { text-align: left; padding: 5px 10px 5px 0; vertical-align: top; }
+    .method th { font-weight: 400; font-style: italic; color: var(--ink-soft); border-bottom: 1px solid var(--hair); }
+    .method td:first-child { font-variant: small-caps; letter-spacing: .03em; }
+    .draft { font-style: italic; color: var(--rubric); text-align: center; }
+  </style>
+</head>
+<body>
+  <main class="method">
+    <p class="back"><a href="index.html">← Back to the edition</a></p>
+    <h1>Editorial method</h1>
+    <p class="draft">Draft. Replace this text with your own statement of method.</p>
+
+    <h2>Pages</h2>
+    <p>Each page of this edition holds exactly the text of one page of the manuscript.
+      A paragraph that runs over a page break is split at the break, as in the original.
+      “View original” opens the page in the Biblioteca Ambrosiana's viewer.</p>
+
+    <h2>Two readings of the Latin</h2>
+    <table>
+      <tr><th></th><th>Diplomatic</th><th>Normalized</th></tr>
+      <tr><td>Abbreviations</td><td>As written (ꝑ, ⁊, q̄)</td><td>Expanded; expansions in <i>italics</i></td></tr>
+      <tr><td>Spelling</td><td>As written (ij, ſ)</td><td>Regularized (ii, s)</td></tr>
+      <tr><td>Lines</td><td>Manuscript line breaks kept</td><td>Running text</td></tr>
+      <tr><td>Scribal errors</td><td>As written</td><td>Corrected (dotted underline; hover for the MS reading)</td></tr>
+      <tr><td>Deletions</td><td><del>struck through</del></td><td>Omitted</td></tr>
+      <tr><td>Additions</td><td>Raised where written above the line</td><td>In the text</td></tr>
+      <tr><td>Editorial supplements</td><td>Not shown</td><td>⟨in angle brackets⟩</td></tr>
+      <tr><td>Catchwords</td><td>Shown at the foot of the page</td><td>Not shown</td></tr>
+      <tr><td>Illegible text</td><td colspan="2">[…] (hover for details)</td></tr>
+    </table>
+
+    <h2>Translation</h2>
+    <p>The translation is aligned page by page with the Latin.</p>
+
+    <h2>Diagrams</h2>
+    <p>The diagrams are traced from the manuscript and placed on the page where they occur.
+      Click a diagram to enlarge it.</p>
+
+    <h2>Acknowledgements</h2>
+    <p>Several features of this edition are adapted from Loren Easterday's digital
+      dissertation on Version T of <i>La Vie de sainte Marie l'Égyptienne</i>
+      (University of Virginia, 2026; <a href="https://leeloren.github.io/dissertation/">leeloren.github.io/dissertation</a>):
+      presenting the text at more than one level of editorial intervention, with each level
+      explained on a method page; linking every page to the library's digitized image;
+      and transcribing in plain text before encoding in TEI.</p>
+  </main>
+</body>
+</html>
